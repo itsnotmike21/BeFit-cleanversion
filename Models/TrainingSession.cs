@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace BeFit.Models
 {
@@ -7,12 +9,21 @@ namespace BeFit.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Rozpoczęcie sesji")]
         public DateTime StartedAt { get; set; }
 
         [Required]
+        [Display(Name = "Zakończenie sesji")]
         public DateTime EndedAt { get; set; }
 
-        // Walidacja: koniec nie może być wcześniejszy niż start
+        // Powiązanie z użytkownikiem
+        [Display(Name = "Użytkownik")]
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+
+        // (opcjonalne) lista wykonanych ćwiczeń w tej sesji
+        public ICollection<PerformedExercise>? PerformedExercises { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (EndedAt < StartedAt)

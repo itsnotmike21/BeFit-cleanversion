@@ -1,0 +1,49 @@
+@model IEnumerable<BeFit.Models.PerformedExercise>
+
+@{
+    ViewData["Title"] = "Wykonane ćwiczenia";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Dodaj nowe wykonanie</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Ćwiczenie</th>
+        <th>Sesja</th>
+        <th>Serii</th>
+        <th>Powtórzeń/seria</th>
+        <th>Obciążenie (kg)</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ExerciseType?.Name</td>
+            <td>
+                @{
+                    var ts = item.TrainingSession;
+                    if (ts != null)
+                    {
+                        @ts.StartedAt.ToString("yyyy-MM-dd HH:mm")
+                        @: -
+                        @ts.EndedAt.ToString("HH:mm")
+                    }
+                }
+            </td>
+            <td>@item.Sets</td>
+            <td>@item.RepsPerSet</td>
+            <td>@item.LoadKg</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

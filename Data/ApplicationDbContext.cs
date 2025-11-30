@@ -4,7 +4,7 @@ using BeFit.Models;
 
 namespace BeFit.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -25,7 +25,7 @@ namespace BeFit.Data
 
             builder.Entity<PerformedExercise>()
                 .HasOne(pe => pe.TrainingSession)
-                .WithMany() // w razie potrzeby zmień na .WithMany(s => s.PerformedExercises)
+                .WithMany(ts => ts.PerformedExercises) // teraz TrainingSession ma kolekcję
                 .HasForeignKey(pe => pe.TrainingSessionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -34,6 +34,20 @@ namespace BeFit.Data
                 .WithMany()
                 .HasForeignKey(pe => pe.ExerciseTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacje użytkownik <-> TrainingSession
+            builder.Entity<TrainingSession>()
+                .HasOne(ts => ts.User)
+                .WithMany(u => u.TrainingSessions)
+                .HasForeignKey(ts => ts.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relacje użytkownik <-> PerformedExercise
+            builder.Entity<PerformedExercise>()
+                .HasOne(pe => pe.User)
+                .WithMany(u => u.PerformedExercises)
+                .HasForeignKey(pe => pe.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

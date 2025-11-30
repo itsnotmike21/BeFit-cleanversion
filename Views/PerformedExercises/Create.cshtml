@@ -1,0 +1,46 @@
+@model BeFit.Models.PerformedExercise
+
+@{
+    ViewData["Title"] = "Dodaj wykonane ćwiczenie";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label asp-for="ExerciseTypeId" class="control-label"></label>
+        @Html.DropDownListFor(m => m.ExerciseTypeId, (SelectList)ViewData["ExerciseTypeId"], "Wybierz...", new { @class = "form-control" })
+        <span asp-validation-for="ExerciseTypeId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TrainingSessionId" class="control-label"></label>
+        @Html.DropDownListFor(m => m.TrainingSessionId, (IEnumerable<SelectListItem>)ViewData["TrainingSessionId"], "Wybierz...", new { @class = "form-control" })
+        <span asp-validation-for="TrainingSessionId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sets" class="control-label"></label>
+        <input asp-for="Sets" class="form-control" />
+        <span asp-validation-for="Sets" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RepsPerSet" class="control-label"></label>
+        <input asp-for="RepsPerSet" class="form-control" />
+        <span asp-validation-for="RepsPerSet" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LoadKg" class="control-label"></label>
+        <input asp-for="LoadKg" class="form-control" />
+        <span asp-validation-for="LoadKg" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
