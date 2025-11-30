@@ -1,0 +1,19 @@
+# Build / IDE
+bin/
+obj/
+.idea/
+*.iml
+
+# Database
+app.db
+*.db
+
+# Rider / VS
+*.suo
+*.user
+*.userosscache
+
+# Logs and OS
+*.log
+.DS_Store
+Thumbs.db
